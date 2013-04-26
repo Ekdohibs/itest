@@ -42,7 +42,7 @@ function send(pos,dir,power,explored)
 	local l={}
 	local ret
 	for i=1,6 do -- 6 should be a maximum
-		local next=go_next(pos,dir,p)
+		local next=enegy_go_next(pos,dir,p)
 		if next==1 then
 			ret=1
 			break
@@ -90,7 +90,7 @@ function send_packet_alldirs(pos,power)
 	return 0
 end
 
-function go_next(pos,dir,power)
+function enegy_go_next(pos,dir,power)
 	local consumers={}
 	local cables={}
 	local cnode=minetest.env:get_node(pos)

@@ -48,6 +48,11 @@ minetest.register_craftitem( "itest:circuit", {
 	inventory_image = "itest_circuit.png",
 })
 
+minetest.register_craftitem( "itest:scrap", {
+	description = "Scrap",
+	inventory_image = "itest_scrap.png",
+})
+
 minetest.register_craft({
 	type = "shapeless",
 	output = "itest:bronze_dust 2",

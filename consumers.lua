@@ -74,3 +74,5 @@ end
 dofile(modpath.."/electric_furnace.lua")
 dofile(modpath.."/macerator.lua")
 dofile(modpath.."/extractor.lua")
+dofile(modpath.."/compressor.lua")
+dofile(modpath.."/recycler.lua")
