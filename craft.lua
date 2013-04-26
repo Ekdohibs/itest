@@ -1,3 +1,12 @@
+function reverse_recipe(r)
+	return {{r[1][1],r[2][1],r[3][1]},{r[1][2],r[2][2],r[3][2]},{r[1][3],r[2][3],r[3][3]}}
+
+function register_craft_2(t)
+	minetest.register_craft(t)
+	t.recipe = reverse_recipe(t.recipe)
+	minetest.register_craft(t)
+end
+
 minetest.register_craftitem( "itest:refined_iron_ingot", {
 	description = "Refined iron ingot",
 	inventory_image = "itest_refined_iron_ingot.png",
@@ -38,6 +47,11 @@ minetest.register_node("itest:machine",{description="Machine",
 	tiles={"itest_machine.png"},
 })
 
+minetest.register_node("itest:advanced_machine",{description="Advanced machine",
+	groups={cracky=2},
+	tiles={"itest_advanced_machine.png"},
+})
+
 minetest.register_craftitem( "itest:rubber", {
 	description = "Rubber",
 	inventory_image = "itest_rubber.png",
@@ -48,9 +62,67 @@ minetest.register_craftitem( "itest:circuit", {
 	inventory_image = "itest_circuit.png",
 })
 
+minetest.register_craftitem( "itest:advanced_circuit", {
+	description = "Advanced circuit",
+	inventory_image = "itest_advanced_circuit.png",
+})
+
 minetest.register_craftitem( "itest:scrap", {
 	description = "Scrap",
 	inventory_image = "itest_scrap.png",
+})
+
+minetest.register_craftitem( "itest:silicon_mese_crystal", {
+	description = "Silicon-doped mese crystal",
+	inventory_image = "itest_silicon_mese_cystal.png",
+})
+
+minetest.register_node("itest:silicon_mese_block",{description="Silicon-doped mese block",
+	groups={cracky=2},
+	tiles={"itest_silicon_mese_block.png"},
+})
+
+minetest.register_craftitem( "itest:mixed_metal_ingot", {
+	description = "Mixed metal ingot",
+	inventory_image = "itest_mixed_metal_ingot.png",
+})
+
+minetest.register_craftitem( "itest:advanced_alloy", {
+	description = "Advanced alloy",
+	inventory_image = "itest_advanced_alloy.png",
+})
+
+minetest.register_craftitem( "itest:carbon_fibers", {
+	description = "Carbon fibers",
+	inventory_image = "itest_carbon_fibers.png",
+})
+
+minetest.register_craftitem( "itest:combined_carbon_fibers", {
+	description = "Combined carbon fibers",
+	inventory_image = "itest_combined_carbon_fibers.png",
+})
+
+minetest.register_craftitem( "itest:carbon_plate", {
+	description = "Carbon plate",
+	inventory_image = "itest_carbon_plate.png",
+})
+
+minetest.register_craft({
+	type = "shapeless",
+	output = "itest:silicon_mese_crystal",
+	recipe = {"default:mese_crystal","mesecons_resources:silicon"}
+})
+
+minetest.register_craft({
+	output = "itest:silicon_mese_crystal 9",
+	recipe = {{"itest:silicon_mese_block"}}
+})
+
+minetest.register_craft({
+	output = "itest:silicon_mese_block",
+	recipe = {{"itest:silicon_mese_crystal","itest:silicon_mese_crystal","itest:silicon_mese_crystal"},
+{"itest:silicon_mese_crystal","itest:silicon_mese_crystal","itest:silicon_mese_crystal"},
+{"itest:silicon_mese_crystal","itest:silicon_mese_crystal","itest:silicon_mese_crystal"}}
 })
 
 minetest.register_craft({
@@ -187,6 +259,27 @@ minetest.register_craft({
 	recipe = {"itest:hv_cable0_000000","itest:rubber","itest:rubber","itest:rubber"}
 })
 
+register_craft2({
+	output = "itest:glass_fiber_000000 4",
+	recipe = {{"default:glass","default:glass","default:glass"},
+		{"mesecons:mesecon","default:diamond","mesecons:mesecon"},
+		{"default:glass","default:glass","default:glass"}}
+})
+
+minetest.register_craft({
+	output = "itest:detector_cable_off_000000",
+	recipe = {{"","itest:circuit",""},
+		{"mesecon:mesecon","itest:hv_cable3_000000","mesecons:mesecon"},
+		{"","mesecons:mesecon",""}}
+})
+
+minetest.register_craft({
+	output = "itest:splitter_cable_000000",
+	recipe = {{"","mesecons:mesecon",""},
+		{"itest:hv_cable3_000000","mesecons_walllever:wall_lever_off","itest:hv_cable3_000000"},
+		{"","mesecons:mesecon",""}}
+})
+
 minetest.register_craft({
 	output = "itest:re_battery",
 	recipe = {{"","itest:copper_cable1_000000",""},
@@ -195,10 +288,38 @@ minetest.register_craft({
 })
 
 minetest.register_craft({
+	output = "itest:energy_crystal",
+	recipe = {{"mesecons:mesecon","mesecons:mesecon","mesecons:mesecon"},
+		{"mesecons:mesecon","default:diamond","mesecons:mesecon"},
+		{"mesecons:mesecon","mesecons:mesecon","mesecons:mesecon"}}
+})
+
+minetest.register_craft({
+	output = "itest:lapotron_crystal",
+	recipe = {{"itest:silicon_mese_crystal","itest:circuit","itest:silicon_mese_crystal"},
+		{"itest:silicon_mese_crystal","itest:energy_crystal","itest:silicon_mese_crystal"},
+		{"itest:silicon_mese_crystal","itest:circuit","itest:silicon_mese_crystal"}}
+})
+
+minetest.register_craft({
 	output = "itest:batbox",
 	recipe = {{"default:wood","itest:copper_cable1_000000","default:wood"},
 		{"itest:re_battery","itest:re_battery","itest:re_battery"},
 		{"default:wood","default:wood","default:wood"}}
+})
+
+minetest.register_craft({
+	output = "itest:mfe_unit",
+	recipe = {{"itest:gold_cable2_000000","itest:energy_crystal","itest:gold_cable2_000000"},
+		{"itest:energy_crystal","itest:machine","itest:energy_crystal"},
+		{"itest:gold_cable2_000000","itest:energy_crystal","itest:gold_cable2_000000"}}
+})
+
+minetest.register_craft({
+	output = "itest:mfs_unit",
+	recipe = {{"itest:lapotron_crystal","itest:advanced_circuit","itest:lapotron_crystal"},
+		{"itest:lapotron_crystal","itest:mfe_unit","itest:lapotron_crystal"},
+		{"itest:lapotron_crystal","itest:advanced_machine","itest:lapotron_crystal"}}
 })
 
 minetest.register_craft({
@@ -222,6 +343,32 @@ minetest.register_craft({
 		{"itest:refined_iron_ingot","itest:refined_iron_ingot","itest:refined_iron_ingot"}}
 })
 
+register_craft2({
+	output = "itest:advanced_machine",
+	recipe = {{"","itest:advanced_alloy",""},
+		{"itest:carbon_plate","itest:machine","itest:carbon_plate"},
+		{"","itest:advanced_alloy",""}}
+})
+
+minetest.register_craft({
+	output = "itest:mixed_metal_ingot 2",
+	recipe = {{"itest:refined_iron_ingot","itest:refined_iron_ingot","itest:refined_iron_ingot"},
+		{"default:bronze_ingot","default:bronze_ingot","default:bronze_ingot"},
+		{"itest:tin_ingot","itest:tin_ingot","itest:tin_ingot"}}
+})
+
+minetest.register_craft({
+	output = "itest:carbon_fibers",
+	recipe = {{"itest:coal_dust","itest:coal_dust"},
+		{"itest:coal_dust","itest:coal_dust"}}
+})
+
+minetest.register_craft({
+	type = "shapeless",
+	output = "itest:combined_carbon_fibers",
+	recipe = {"itest:carbon_fibers","itest:carbon_fibers"}
+})
+
 minetest.register_craft({
 	output = "itest:generator",
 	recipe = {{"","itest:re_battery",""},
@@ -236,18 +383,39 @@ minetest.register_craft({
 		{"default:furnace"}}
 })
 
-minetest.register_craft({
+register_craft2({
 	output = "itest:circuit",
 	recipe = {{"itest:copper_cable0_00000","itest:copper_cable0_00000","itest:copper_cable0_00000"},
 		{"mesecons:mesecon","itest:refined_iron_ingot","mesecons:mesecon"},
 		{"itest:copper_cable0_00000","itest:copper_cable0_00000","itest:copper_cable0_00000"}}
 })
 
+register_craft2({
+	output = "itest:advanced_circuit",
+	recipe = {{"mesecons:mesecon","itest:gold_dust","mesecons:mesecon"},
+		{"itest:silicon_mese_crystal","itest:circuit","itest:silicon_mese_crystal"},
+		{"mesecons:mesecon","itest:gold_dust","mesecons:mesecon"}}
+})
+
 minetest.register_craft({
-	output = "itest:circuit",
-	recipe = {{"itest:copper_cable0_00000","mesecons:mesecon","itest:copper_cable0_00000"},
-		{"itest:copper_cable0_000000","itest:refined_iron_ingot","itest:copper_cable0_000000"},
-		{"itest:copper_cable0_00000","mesecons:mesecon","itest:copper_cable0_00000"}}
+	output = "itest:lv_transformer",
+	recipe = {{"default:wood","itest:copper_cable1_000000","default:wood"},
+		{"default:copper_ingot","default:copper_ingot","default:copper_ingot"},
+		{"default:wood","itest:copper_cable1_000000","default:wood"}}
+})
+
+minetest.register_craft({
+	output = "itest:mv_transformer",
+	recipe = {{"itest:gold_cable2_000000"},
+		{"itest:machine"},
+		{"itest:gold_cable2_000000"}}
+})
+
+minetest.register_craft({
+	output = "itest:hv_transformer",
+	recipe = {{"","itest:hv_cable3_000000",""},
+		{"itest:circuit","itest:mv_transformer","itest:energy_crystal"},
+		{"","itest:hv_cable3_000000",""}}
 })
 
 minetest.register_craft({
@@ -270,10 +438,38 @@ minetest.register_craft({
 })
 
 minetest.register_craft({
+	output = "itest:compressor",
+	recipe = {{"default:stone","","default:stone"},
+		{"default:stone","itest:machine","default:stone"},
+		{"default:stone","itest:circuit","default:stone"}}
+})
+
+minetest.register_craft({
+	output = "itest:recycler",
+	recipe = {{"","itest:gold_dust",""},
+		{"default:dirt","itest:compressor","default:dirt"},
+		{"itest:refined_iron_ingot","default:dirt","itest:refined_iron_ingot"}}
+})
+
+minetest.register_craft({
 	output = "itest:solar_panel",
 	recipe = {{"itest:coal_dust","default:glass","itest:coal_dust"},
 		{"default:glass","itest:coal_dust","default:glass"},
 		{"itest:circuit","itest:generator","itest:circuit"}}
+})
+
+minetest.register_craft({
+	output = "itest:watermill 2",
+	recipe = {{"default:stick","default:wood","default:stick"},
+		{"default:wood","itest:generator","default:wood"},
+		{"default:stick","default:wood","default:stick"}}
+})
+
+minetest.register_craft({
+	output = "itest:windmill",
+	recipe = {{"default:steel_ingot","","default:steel_ingot"},
+		{"","itest:generator",""},
+		{"default:steel_ingot","","default:steel_ingot"}}
 })
 
 minetest.register_craft({
@@ -345,3 +541,7 @@ extractor.register_extractor_recipe("itest:sticky_resin","itest:rubber 3")
 extractor.register_extractor_recipe("itest:rubber_tree","itest:rubber")
 extractor.register_extractor_recipe("itest:rubber_sapling","itest:rubber")
 extractor.register_extractor_recipe("default:mese_crystal","mesecons:mesecon 32")
+
+compressor.register_compressor_recipe("itest:mixed_metal_ingot","itest:advanced_alloy")
+compressor.register_compressor_recipe("itest:combined_carbon_fibers","itest:carbon_plate")
+
