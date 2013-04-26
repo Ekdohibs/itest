@@ -1,7 +1,8 @@
-function reverse_recipe(r)
+local function reverse_recipe(r)
 	return {{r[1][1],r[2][1],r[3][1]},{r[1][2],r[2][2],r[3][2]},{r[1][3],r[2][3],r[3][3]}}
+end
 
-function register_craft_2(t)
+local function register_craft2(t)
 	minetest.register_craft(t)
 	t.recipe = reverse_recipe(t.recipe)
 	minetest.register_craft(t)
@@ -74,7 +75,7 @@ minetest.register_craftitem( "itest:scrap", {
 
 minetest.register_craftitem( "itest:silicon_mese_crystal", {
 	description = "Silicon-doped mese crystal",
-	inventory_image = "itest_silicon_mese_cystal.png",
+	inventory_image = "itest_silicon_mese_crystal.png",
 })
 
 minetest.register_node("itest:silicon_mese_block",{description="Silicon-doped mese block",

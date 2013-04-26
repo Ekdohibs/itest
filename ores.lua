@@ -18,17 +18,35 @@ minetest.register_node( "itest:stone_with_tin", {
 
 minetest.register_craftitem( "itest:tin_lump", {
 	description = "Tin lump",
-	inventory_image = "",
+	inventory_image = "itest_tin_lump.png",
 })
 
 minetest.register_craftitem( "itest:uranium_lump", {
 	description = "Uranium lump",
-	inventory_image = "",
+	inventory_image = "itest_uranium_lump.png",
 })
 
 minetest.register_craftitem( "itest:tin_ingot", {
 	description = "Tin ingot",
-	inventory_image = "",
+	inventory_image = "itest_tin_ingot.png",
+})
+
+minetest.register_node( "itest:tin_block", {
+	description = "Tin block",
+	groups={cracky=2},
+	tiles={"itest_tin_block.png"},
+})
+
+minetest.register_craft({
+	output = "itest:tin_block",
+	recipe = {{"itest:tin_ingot","itest:tin_ingot","itest:tin_ingot"},
+		{"itest:tin_ingot","itest:tin_ingot","itest:tin_ingot"},
+		{"itest:tin_ingot","itest:tin_ingot","itest:tin_ingot"}}
+})
+
+minetest.register_craft({
+	output = "itest:tin_ingot 9",
+	recipe = {{"itest:tin_block"}}
 })
 
 minetest.register_craft({
@@ -100,3 +118,4 @@ minetest.register_ore({
 minetest.register_alias("moreores:mineral_tin","itest:stone_with_tin")
 minetest.register_alias("moreores:tin_lump","itest:tin_lump")
 minetest.register_alias("moreores:tin_ingot","itest:tin_ingot")
+minetest.register_alias("moreores:tin_block","itest:tin_block")

@@ -20,7 +20,7 @@ end
 
 minetest.register_tool("itest:re_battery",{
 	description = "RE Battery",
-	inventory_image = "technic_battery.png",
+	inventory_image = "itest_re_battery.png",
 	itest = {max_charge = 10000,
 		max_speed = 100,
 		charge_tier = 1},

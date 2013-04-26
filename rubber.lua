@@ -1,7 +1,7 @@
 rubber_tree_leaves_pos = {{x=0,y=8,z=0},{x=0,y=9,z=0},{x=0,y=10,z=0},
 {x=1,y=7,z=0},{x=1,y=7,z=1},{x=1,y=7,z=-1},{x=0,y=7,z=-1},{x=0,y=7,z=1},
 {x=-1,y=7,z=-1},{x=-1,y=7,z=0},{x=-1,y=7,z=1}}
-for y=2,5 do
+for y=2,6 do
 	for x=-2,2 do
 		for z=-2,2 do
 			if ((x~=-2 and x~=2) or (z~=-2 and z~=2)) and (x~=0 or z~=0) then
