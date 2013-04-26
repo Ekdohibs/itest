@@ -70,12 +70,31 @@ end
 
 function send_packet(fpos,dir,psize)
 	local conductor=get_node_field(
-			minetest.env:get_node(addVect(fpos,dir)).name,nil,"energy_conductor",fpos)
+			minetest.env:get_node(addVect(fpos,dir)).name,nil,"energy_conductor",addVect(fpos,dir))
 	local s
+	local consumer=get_node_field(minetest.env:get_node(addVect(fpos,dir)).name,nil,"energy_consumer",addVect(fpos,dir))
 	local closs=get_node_field_float(
-			minetest.env:get_node(addVect(fpos,dir)).name,nil,"current_loss",fpos)
+			minetest.env:get_node(addVect(fpos,dir)).name,nil,"current_loss",addVect(fpos,dir))
 	if conductor>0 then
 		s=send(addVect(fpos,dir),dir,psize,{})
+	elseif consumer>0 then
+		local npos = addVect(fpos,dir)
+		local node = minetest.env:get_node(npos)
+		local meta = minetest.env:get_meta(npos)
+		if not (minetest.registered_nodes[node.name].itest and
+			minetest.registered_nodes[node.name].itest.can_receive and
+				(not minetest.registered_nodes[node.name].itest.can_receive(npos,vect))) then
+			local max_energy=get_node_field(node.name,meta,"max_energy")
+			local current_energy=meta:get_int("energy")
+			local max_psize=get_node_field(node.name,meta,"max_psize")
+			if power>max_psize then
+				blast(npos)
+				return psize
+			elseif power <= max_energy-current_energy then 
+				meta:set_int("energy",meta:get_int("energy")+psize)
+				return psize
+			end
+		end
 	end
 	return s
 end
