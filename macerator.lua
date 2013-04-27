@@ -165,6 +165,14 @@ minetest.register_abm({
 			end
 			consumers.discharge(pos)
 		end
+		local srclist = inv:get_list("src")
+		local ground = nil
+		local afterground
+	
+		if srclist then
+			ground, afterground = macerator.get_craft_result({method = "grinding",
+				width = 1, items = srclist})
+		end
 		local progress = meta:get_float("stime")
 		local maxprogress = 1
 		if ground and ground.time then

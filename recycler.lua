@@ -173,7 +173,7 @@ minetest.register_abm({
 				"list[current_name;src;2,1;1,1;]"..
 				"list[current_name;dst;5,1;2,2;]"..
 				consumers.get_progressbar(progress,maxprogress,
-					"itest_recycler_progress_bg",
-					"itest_recycler_progress_fg"))
+					"itest_recycler_progress_bg.png",
+					"itest_recycler_progress_fg.png"))
 	end,
 })

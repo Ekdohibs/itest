@@ -165,6 +165,14 @@ minetest.register_abm({
 			end
 			consumers.discharge(pos)
 		end
+		local srclist = inv:get_list("src")
+		local compressed = nil
+		local aftercompressed
+	
+		if srclist then
+			compressed, aftercompressed = compressor.get_craft_result({method = "compressing",
+				width = 1, items = srclist})
+		end
 		local progress = meta:get_float("stime")
 		local maxprogress = 1
 		if compressed and compressed.time then
@@ -180,7 +188,7 @@ minetest.register_abm({
 				"list[current_name;src;2,1;1,1;]"..
 				"list[current_name;dst;5,1;2,2;]"..
 				consumers.get_progressbar(progress,maxprogress,
-					"itest_compressor_progress_bg",
-					"itest_compressor_progress_fg"))
+					"itest_compressor_progress_bg.png",
+					"itest_compressor_progress_fg.png"))
 	end,
 })
