@@ -87,10 +87,10 @@ function send_packet(fpos,dir,psize)
 			local max_energy=get_node_field(node.name,meta,"max_energy")
 			local current_energy=meta:get_int("energy")
 			local max_psize=get_node_field(node.name,meta,"max_psize")
-			if power>max_psize then
+			if psize>max_psize then
 				blast(npos)
 				return psize
-			elseif power <= max_energy-current_energy then 
+			elseif psize <= max_energy-current_energy then 
 				meta:set_int("energy",meta:get_int("energy")+psize)
 				return psize
 			end
