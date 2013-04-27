@@ -536,6 +536,8 @@ macerator.register_macerator_recipe("moreores:bronze_ingot","itest:bronze_dust")
 macerator.register_macerator_recipe("moreores:copper_ingot","itest:copper_dust")
 macerator.register_macerator_recipe("moreores:tin_ingot","itest:tin_dust")
 macerator.register_macerator_recipe("moreores:tin_lump","itest:tin_dust 2")
+macerator.register_macerator_recipe("moreores:gold_ingot","itest:gold_dust")
+macerator.register_macerator_recipe("moreores:gold_lump","itest:gold_dust 2")
 macerator.register_macerator_recipe("moreores:copper_lump","itest:copper_dust 2")
 
 extractor.register_extractor_recipe("itest:sticky_resin","itest:rubber 3")

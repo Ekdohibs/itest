@@ -100,7 +100,7 @@ function send_packet(fpos,dir,psize)
 end
 
 function send_packet_alldirs(pos,power)
-	for _,dir in ipairs(meseadjlist) do
+	for _,dir in ipairs(adjlist) do
 		local s=send_packet(pos,dir,power)
 		if s~= nil then
 			return 1
