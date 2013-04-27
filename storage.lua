@@ -144,7 +144,7 @@ minetest.register_node("itest:mfe_unit",{description="MFE Unit",
 	groups={energy=1, cracky=2, energy_consumer=1},
 	paramtype2 = "facedir",
 	legacy_facedir_simple = true,
-	tiles={"itest_mfe_side.png", "itest_mfe_side.png", "itest_mfe_side.png", "itest_mfe_output.png", "itest_mfe_side.png", "itest_mfe_side.png"},
+	tiles={"itest_mfe_side.png", "itest_mfe_side.png", "itest_mfe_output.png", "itest_mfe_side.png", "itest_mfe_side.png", "itest_mfe_side.png"},
 	itest = {max_energy = 600000,
 		max_psize = 128},
 	on_construct = function(pos)
