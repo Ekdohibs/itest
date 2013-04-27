@@ -106,9 +106,12 @@ minetest.register_node("itest:rubber_leaves", {
 		max_items = 1,
 		items = {
 			{
-				items = {'technic:rubber_sapling'},
+				items = {"itest:rubber_sapling"},
 				rarity = 40,
 			},
+			{
+				items = {"itest:rubber_leaves"}
+			}
 		}
 	},
 	sounds = default.node_sound_leaves_defaults(),

@@ -5,6 +5,7 @@ function storage.charge(pos)
 	local energy = meta:get_int("energy")
 	local inv = meta:get_inventory()
 	local chr = inv:get_stack("charge",1)
+	if chr:is_empty() then return end
 	chr = chr:to_table()
 	if chr == nil then return end
 	if chr.count ~= 1 then return end -- Don't charge stacks

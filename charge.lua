@@ -15,7 +15,7 @@ function charge.set_charge(stack,charge)
 end
 
 function charge.single_use(stack)
-	return get_item_field(stack:get_name(),"single_use")
+	return get_item_field(stack:get_name(),"single_use")>0
 end
 
 minetest.register_tool("itest:re_battery",{

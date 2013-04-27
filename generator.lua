@@ -120,56 +120,61 @@ minetest.register_abm({
 			meta:set_float("fburntime", 0.0)
 		end
 		
-		local fuel = nil
-		local afterfuel
-		local fuellist = inv:get_list("fuel")
-		
-		if fuellist then
-			fuel, afterfuel = minetest.get_craft_result(
-				{method = "fuel", width = 1, items = fuellist})
-		end
-		
-		if meta:get_float("ftime") < meta:get_float("fburntime") then
-			meta:set_float("ftime", meta:get_float("ftime") + 1)
-			for i=1,20 do
-				generators.produce(pos,10)
+		local state=false
+		for i=1,20 do
+			local fuel = nil
+			local afterfuel
+			local fuellist = inv:get_list("fuel")
+			
+			if fuellist then
+				fuel, afterfuel = minetest.get_craft_result(
+					{method = "fuel", width = 1, items = fuellist})
 			end
-		else
-			for i=1,20 do
+			
+			if meta:get_float("ftime") < meta:get_float("fburntime") then
+				meta:set_float("ftime", meta:get_float("ftime") + 1)
+				generators.produce(pos,10)
+			else
 				local energy = meta:get_int("energy")
 				local use = math.min(energy,10)
 				meta:set_int("energy",energy-use)
 				generators.produce(pos,use)
 			end
-		end
+			
+			if meta:get_float("ftime") < meta:get_float("fburntime") then
+				local percent = meta:get_float("ftime")/meta:get_float("fburntime")*100
+				state = true
+				meta:set_string("formspec", generators.get_formspec(pos)..
+					"image[2,2;1,1;default_furnace_fire_bg.png^[lowpart:"..
+							(100-percent)..":default_furnace_fire_fg.png]"..
+					"list[current_name;fuel;2,3;1,1;]")
+			else
+			
+				if fuellist then
+					fuel, afterfuel = minetest.get_craft_result({method = "fuel", width = 1, items = fuellist})
+				end
+	
+				if (not fuel) or fuel.time <= 0 then
+					state = false
+					meta:set_string("formspec", generators.get_formspec(pos)..
+						"image[2,2;1,1;default_furnace_fire_bg.png]"..
+						"list[current_name;fuel;2,3;1,1;]")
+					break
+				end
 		
-		if meta:get_float("ftime") < meta:get_float("fburntime") then
-			local percent = meta:get_float("ftime")/meta:get_float("fburntime")*100
+				meta:set_float("ftime", meta:get_float("ftime")-meta:get_float("fburntime"))
+				meta:set_float("fburntime", fuel.time*5) -- Fuel will last 4 times less, but we have 20 ticks in a second
+				meta:set_string("formspec", generators.get_formspec(pos)..
+						"image[2,2;1,1;default_furnace_fire_fg.png]"..
+						"list[current_name;fuel;2,3;1,1;]")
+				inv:set_stack("fuel", 1, afterfuel.items[1])
+			end
+		end
+
+		if state then
 			hacky_swap_node(pos,"itest:generator_active")
-			meta:set_string("formspec", generators.get_formspec(pos)..
-				"image[2,2;1,1;default_furnace_fire_bg.png^[lowpart:"..
-						(100-percent)..":default_furnace_fire_fg.png]"..
-				"list[current_name;fuel;2,3;1,1;]")
-			return
-		end
-		
-		if fuellist then
-			fuel, afterfuel = minetest.get_craft_result({method = "fuel", width = 1, items = fuellist})
-		end
-
-		if (not fuel) or fuel.time <= 0 then
+		else
 			hacky_swap_node(pos,"itest:generator")
-			meta:set_string("formspec", generators.get_formspec(pos)..
-				"image[2,2;1,1;default_furnace_fire_bg.png]"..
-				"list[current_name;fuel;2,3;1,1;]")
-			return
 		end
-
-		meta:set_float("ftime", meta:get_float("ftime")-meta:get_float("fburntime"))
-		meta:set_float("fburntime", fuel.time/4) -- Fuel will last 4 times less
-		meta:set_string("formspec", generators.get_formspec(pos)..
-				"image[2,2;1,1;default_furnace_fire_fg.png]"..
-				"list[current_name;fuel;2,3;1,1;]")
-		inv:set_stack("fuel", 1, afterfuel.items[1])
 	end,
 })

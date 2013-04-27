@@ -263,36 +263,36 @@ minetest.register_craft({
 register_craft2({
 	output = "itest:glass_fiber_000000 4",
 	recipe = {{"default:glass","default:glass","default:glass"},
-		{"mesecons:mesecon","default:diamond","mesecons:mesecon"},
+		{"mesecons:wire_00000000_off","default:diamond","mesecons:wire_00000000_off"},
 		{"default:glass","default:glass","default:glass"}}
 })
 
 minetest.register_craft({
 	output = "itest:detector_cable_off_000000",
 	recipe = {{"","itest:circuit",""},
-		{"mesecon:mesecon","itest:hv_cable3_000000","mesecons:mesecon"},
-		{"","mesecons:mesecon",""}}
+		{"mesecon:mesecon","itest:hv_cable3_000000","mesecons:wire_00000000_off"},
+		{"","mesecons:wire_00000000_off",""}}
 })
 
 minetest.register_craft({
 	output = "itest:splitter_cable_000000",
-	recipe = {{"","mesecons:mesecon",""},
+	recipe = {{"","mesecons:wire_00000000_off",""},
 		{"itest:hv_cable3_000000","mesecons_walllever:wall_lever_off","itest:hv_cable3_000000"},
-		{"","mesecons:mesecon",""}}
+		{"","mesecons:wire_00000000_off",""}}
 })
 
 minetest.register_craft({
 	output = "itest:re_battery",
 	recipe = {{"","itest:copper_cable1_000000",""},
-		{"itest:tin_ingot","mesecons:mesecon","itest:tin_ingot"},
-		{"itest:tin_ingot","mesecons:mesecon","itest:tin_ingot"}}
+		{"itest:tin_ingot","mesecons:wire_00000000_off","itest:tin_ingot"},
+		{"itest:tin_ingot","mesecons:wire_00000000_off","itest:tin_ingot"}}
 })
 
 minetest.register_craft({
 	output = "itest:energy_crystal",
-	recipe = {{"mesecons:mesecon","mesecons:mesecon","mesecons:mesecon"},
-		{"mesecons:mesecon","default:diamond","mesecons:mesecon"},
-		{"mesecons:mesecon","mesecons:mesecon","mesecons:mesecon"}}
+	recipe = {{"mesecons:wire_00000000_off","mesecons:wire_00000000_off","mesecons:wire_00000000_off"},
+		{"mesecons:wire_00000000_off","default:diamond","mesecons:wire_00000000_off"},
+		{"mesecons:wire_00000000_off","mesecons:wire_00000000_off","mesecons:wire_00000000_off"}}
 })
 
 minetest.register_craft({
@@ -386,16 +386,16 @@ minetest.register_craft({
 
 register_craft2({
 	output = "itest:circuit",
-	recipe = {{"itest:copper_cable0_00000","itest:copper_cable0_00000","itest:copper_cable0_00000"},
-		{"mesecons:mesecon","itest:refined_iron_ingot","mesecons:mesecon"},
-		{"itest:copper_cable0_00000","itest:copper_cable0_00000","itest:copper_cable0_00000"}}
+	recipe = {{"itest:copper_cable1_000000","itest:copper_cable1_000000","itest:copper_cable1_000000"},
+		{"mesecons:wire_00000000_off","itest:refined_iron_ingot","mesecons:wire_00000000_off"},
+		{"itest:copper_cable1_000000","itest:copper_cable1_000000","itest:copper_cable1_000000"}}
 })
 
 register_craft2({
 	output = "itest:advanced_circuit",
-	recipe = {{"mesecons:mesecon","itest:gold_dust","mesecons:mesecon"},
+	recipe = {{"mesecons:wire_00000000_off","itest:gold_dust","mesecons:wire_00000000_off"},
 		{"itest:silicon_mese_crystal","itest:circuit","itest:silicon_mese_crystal"},
-		{"mesecons:mesecon","itest:gold_dust","mesecons:mesecon"}}
+		{"mesecons:wire_00000000_off","itest:gold_dust","mesecons:wire_00000000_off"}}
 })
 
 minetest.register_craft({
@@ -422,7 +422,7 @@ minetest.register_craft({
 minetest.register_craft({
 	output = "itest:electric_furnace",
 	recipe = {{"","itest:circuit",""},
-		{"mesecons:mesecon","itest:iron_furnace","mesecons:mesecon"}}
+		{"mesecons:wire_00000000_off","itest:iron_furnace","mesecons:wire_00000000_off"}}
 })
 
 minetest.register_craft({
@@ -433,7 +433,7 @@ minetest.register_craft({
 
 minetest.register_craft({
 	output = "itest:macerator",
-	recipe = {{"default:obsidian_shard","default:obsidian_shard","default:obsidian_shard"},
+	recipe = {{"default:desert_stone","default:desert_stone","default:desert_stone"},
 		{"default:cobble","itest:machine","default:cobble"},
 		{"","itest:circuit",""}}
 })
@@ -541,7 +541,7 @@ macerator.register_macerator_recipe("moreores:copper_lump","itest:copper_dust 2"
 extractor.register_extractor_recipe("itest:sticky_resin","itest:rubber 3")
 extractor.register_extractor_recipe("itest:rubber_tree","itest:rubber")
 extractor.register_extractor_recipe("itest:rubber_sapling","itest:rubber")
-extractor.register_extractor_recipe("default:mese_crystal","mesecons:mesecon 32")
+extractor.register_extractor_recipe("default:mese_crystal","mesecons:wire_00000000_off 32")
 
 compressor.register_compressor_recipe("itest:mixed_metal_ingot","itest:advanced_alloy")
 compressor.register_compressor_recipe("itest:combined_carbon_fibers","itest:carbon_plate")
