@@ -2,7 +2,7 @@ function send_alldirs_except(pos,dir,power)
 	local meta=minetest.env:get_meta(pos)
 	if meta:get_int("energy")<power then return end
 	for _,dir in ipairs(meseadjlist) do
-		if dir.x~=senddir.x or dir.y~=senddir.y or dir.z~=senddir.z then
+		if dir.x~=dir.x or dir.y~=dir.y or dir.z~=dir.z then
 			local s=send_packet(pos,dir)
 			if s~= nil then
 				meta:set_int("energy",meta:get_int("energy")-power)
