@@ -453,6 +453,20 @@ minetest.register_craft({
 })
 
 minetest.register_craft({
+	output = "itest:mining_pipe 8",
+	recipe = {{"itest:refined_iron_ingot","","itest:refined_iron_ingot"},
+		{"itest:refined_iron_ingot","","itest:refined_iron_ingot"},
+		{"itest:refined_iron_ingot","itest:treetap","itest:refined_iron_ingot"}}
+})
+
+minetest.register_craft({
+	output = "itest:miner",
+	recipe = {{"itest:circuit","itest:machine","itest:circuit"},
+		{"","itest:mining_pipe",""},
+		{"","itest:mining_pipe",""}}
+})
+
+minetest.register_craft({
 	output = "itest:solar_panel",
 	recipe = {{"itest:coal_dust","default:glass","itest:coal_dust"},
 		{"default:glass","itest:coal_dust","default:glass"},
@@ -471,6 +485,40 @@ minetest.register_craft({
 	recipe = {{"default:steel_ingot","","default:steel_ingot"},
 		{"","itest:generator",""},
 		{"default:steel_ingot","","default:steel_ingot"}}
+})
+
+minetest.register_craft({
+	output = "itest:mining_drill",
+	recipe = {{"","itest:refined_iron_ingot",""},
+		{"itest:refined_iron_ingot","itest:circuit","itest:refined_iron_ingot"},
+		{"itest:refined_iron_ingot","itest:re_battery","itest:refined_iron_ingot"}}
+})
+
+minetest.register_craft({
+	output = "itest:diamond_drill",
+	recipe = {{"","default:diamond",""},
+		{"default:diamond","itest:mining_drill","default:diamond"}}
+})
+
+minetest.register_craft({
+	output = "itest:od_scanner",
+	recipe = {{"","itest:gold_dust",""},
+		{"itest:circuit","itest:re_battery","itest:circuit"},
+		{"itest:copper_cable1_000000","itest:copper_cable1_000000","itest:copper_cable1_000000"}}
+})
+
+minetest.register_craft({
+	output = "itest:ov_scanner",
+	recipe = {{"","itest:gold_dust",""},
+		{"itest:gold_dust","itest:advanced_circuit","itest:gold_dust"},
+		{"itest:gold_cable2_000000","itest:re_battery","itest:gold_cable2_000000"}}
+})
+
+minetest.register_craft({
+	output = "itest:ov_scanner",
+	recipe = {{"","itest:gold_dust",""},
+		{"itest:gold_dust","itest:advanced_circuit","itest:gold_dust"},
+		{"itest:gold_cable2_000000","itest:od_scanner","itest:gold_cable2_000000"}}
 })
 
 minetest.register_craft({
