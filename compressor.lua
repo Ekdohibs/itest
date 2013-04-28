@@ -19,6 +19,18 @@ minetest.register_node("itest:compressor", {
 	groups = {energy=1, energy_consumer=1, cracky=2},
 	legacy_facedir_simple = true,
 	sounds = default.node_sound_stone_defaults(),
+	tube={insert_object=function(pos,node,stack,direction)
+			local meta=minetest.env:get_meta(pos)
+			local inv=meta:get_inventory()
+			return inv:add_item("src",stack)
+		end,
+		can_insert=function(pos,node,stack,direction)
+			local meta=minetest.env:get_meta(pos)
+			local inv=meta:get_inventory()
+			return inv:room_for_item("src",stack)
+
+		end,
+		input_inventory="dst"},
 	on_construct = function(pos)
 		local meta = minetest.env:get_meta(pos)
 		meta:set_int("energy",0)
@@ -71,6 +83,18 @@ minetest.register_node("itest:compressor_active", {
 	groups = {energy=1, energy_consumer=1, cracky=2, not_in_creative_inventory=1},
 	legacy_facedir_simple = true,
 	sounds = default.node_sound_stone_defaults(),
+	tube={insert_object=function(pos,node,stack,direction)
+			local meta=minetest.env:get_meta(pos)
+			local inv=meta:get_inventory()
+			return inv:add_item("src",stack)
+		end,
+		can_insert=function(pos,node,stack,direction)
+			local meta=minetest.env:get_meta(pos)
+			local inv=meta:get_inventory()
+			return inv:room_for_item("src",stack)
+
+		end,
+		input_inventory="dst"},
 	on_construct = function(pos)
 		local meta = minetest.env:get_meta(pos)
 		meta:set_int("energy",0)
