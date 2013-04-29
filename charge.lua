@@ -12,6 +12,15 @@ end
 
 function charge.set_charge(stack,charge)
 	stack.metadata = tostring(charge)
+	if minetest.registered_items[stack.name] and minetest.registered_items[stack.name].itest then
+		local it = minetest.registered_items[stack.name].itest
+		if charge > 0 and it.chargedname then
+			stack.name = it.chargedname
+		end
+		if charge == 0 and it.dischargedname then
+			stack.name = it.dischargedname
+		end
+	end
 end
 
 function charge.single_use(stack)
@@ -63,11 +72,33 @@ minetest.register_tool("itest:mining_drill",{
 	inventory_image = "itest_mining_drill.png",
 	itest = {max_charge = 10000,
 		max_speed = 100,
-		charge_tier = 1},
+		charge_tier = 1,
+		dischargedname = "itest:mining_drill_discharged"},
 	tool_capabilities =
 		{max_drop_level=0,
-		--groupcaps={cracky = {times={[1]=4.00, [2]=1.60, [3]=0.80}, uses=22, maxlevel=2}}}
-		groupcaps={fleshy={times={}, uses=1, maxlevel=0}}}
+		-- Uses are specified, but not used since there is a after_use function
+		groupcaps={cracky = {times={[1]=4.00, [2]=1.60, [3]=0.80}, uses=22, maxlevel=2}}},
+	after_use = function (itemstack, user, pointed_thing)
+		local stack = itemstack:to_table()
+		local chr = charge.get_charge(stack)
+		local max_charge = minetest.registered_items[stack.name].itest.max_charge
+		nchr = math.max(0,chr-50)
+		charge.set_charge(stack,nchr)
+		charge.set_wear(stack,nchr,max_charge)
+		return ItemStack(stack)
+	end
+})
+
+minetest.register_tool("itest:mining_drill_discharged",{
+	description = "Mining drill",
+	inventory_image = "itest_mining_drill.png",
+	itest = {max_charge = 10000,
+		max_speed = 100,
+		charge_tier = 1,
+		chargedname = "itest:mining_drill"},
+	tool_capabilities =
+		{max_drop_level=0,
+		groupcaps={}},
 })
 
 minetest.register_tool("itest:diamond_drill",{
@@ -75,38 +106,58 @@ minetest.register_tool("itest:diamond_drill",{
 	inventory_image = "itest_diamond_drill.png",
 	itest = {max_charge = 10000,
 		max_speed = 100,
-		charge_tier = 1},
+		charge_tier = 1,
+		dischargedname = "itest:diamond_drill_discharged"},
 	tool_capabilities =
 		{max_drop_level=0,
-		--groupcaps={cracky = {times={[1]=2.0, [2]=1.0, [3]=0.50}, uses=4, maxlevel=3}}}
-		groupcaps={fleshy={times={}, uses=1, maxlevel=0}}}
+		-- Uses are specified, but not used since there is a after_use function
+		groupcaps={cracky = {times={[1]=2.0, [2]=1.0, [3]=0.50}, uses=4, maxlevel=3}}},
+	after_use = function (itemstack, user, pointed_thing)
+		local stack = itemstack:to_table()
+		local chr = charge.get_charge(stack)
+		local max_charge = minetest.registered_items[stack.name].itest.max_charge
+		nchr = math.max(0,chr-84)
+		charge.set_charge(stack,nchr)
+		charge.set_wear(stack,nchr,max_charge)
+		return ItemStack(stack)
+	end
+})
+
+minetest.register_tool("itest:diamond_drill_discharged",{
+	description = "Diamond drill",
+	inventory_image = "itest_diamond_drill.png",
+	itest = {max_charge = 10000,
+		max_speed = 100,
+		charge_tier = 1,
+		chargedname = "itest:diamond_drill"},
+	tool_capabilities =
+		{max_drop_level=0,
+		groupcaps={}},
 })
 
 minetest.register_tool("itest:od_scanner",{
-	description = "OD Scanner",
+	description = "OD Scanner -- Warning: Does not work yet",
 	inventory_image = "itest_od_scanner.png",
 	itest = {max_charge = 10000,
 		max_speed = 100,
 		charge_tier = 1},
 	tool_capabilities =
 		{max_drop_level=0,
-		groupcaps={fleshy={times={}, uses=1, maxlevel=0}}}
+		groupcaps={}}
 })
 
 minetest.register_tool("itest:ov_scanner",{
-	description = "OV Scanner",
+	description = "OV Scanner -- Warning: Does not work yet",
 	inventory_image = "itest_ov_scanner.png",
 	itest = {max_charge = 10000,
 		max_speed = 100,
 		charge_tier = 2},
 	tool_capabilities =
 		{max_drop_level=0,
-		groupcaps={fleshy={times={}, uses=1, maxlevel=0}}}
+		groupcaps={}}
 })
 
-
-
-
+-- Add power to mesecons
 mcon = clone_node("mesecons:wire_00000000_off")
 mcon.itest = {single_use = 1, singleuse_energy = 500}
 minetest.register_node(":mesecons:wire_00000000_off",mcon)

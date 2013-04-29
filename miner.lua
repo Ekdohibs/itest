@@ -127,7 +127,21 @@ minetest.register_abm({
 				"list[current_name;scanner;4,3;1,1;]")
 		local inv = meta:get_inventory()
 		local drill = inv:get_stack("drill",1)
-		if drill:is_empty() then return end
+		if drill:is_empty() then
+			local tpos = {x=pos.x,y=pos.y-1,z=pos.z}
+			local name = minetest.env:get_node(tpos).name
+			while name == "itest:mining_pipe" do
+				tpos = {x=tpos.x,y=tpos.y-1,z=tpos.z}
+				name = minetest.env:get_node(tpos).name
+			end
+			if name == "ignore" then return end
+			tpos = {x=tpos.x,y=tpos.y+1,z=tpos.z}
+			local name = minetest.env:get_node(tpos).name
+			if name~="itest:mining_pipe" then return end
+			minetest.env:set_node(tpos,{name="air"})
+			miner.eject_item(pos,ItemStack("itest:mining_pipe"))
+			return
+		end
 		local pipe = inv:get_stack("pipe",1)
 		if pipe:is_empty() then return end
 		local ntime
