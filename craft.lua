@@ -73,9 +73,9 @@ minetest.register_craftitem( "itest:scrap", {
 	inventory_image = "itest_scrap.png",
 })
 
-minetest.register_craftitem( "itest:silicon_mese_crystal", {
-	description = "Silicon-doped mese crystal",
-	inventory_image = "itest_silicon_mese_crystal.png",
+minetest.register_craftitem( "itest:silicon_mesecon", {
+	description = "Silicon-doped mesecon",
+	inventory_image = "itest_silicon_mesecon.png",
 })
 
 minetest.register_node("itest:silicon_mese_block",{description="Silicon-doped mese block",
@@ -110,20 +110,20 @@ minetest.register_craftitem( "itest:carbon_plate", {
 
 minetest.register_craft({
 	type = "shapeless",
-	output = "itest:silicon_mese_crystal",
-	recipe = {"default:mese_crystal","mesecons_resources:silicon"}
+	output = "itest:silicon_mesecon",
+	recipe = {"mesecons:mesecon","mesecons_resources:silicon","itest:copper_dust"}
 })
 
 minetest.register_craft({
-	output = "itest:silicon_mese_crystal 9",
+	output = "itest:silicon_mesecon 9",
 	recipe = {{"itest:silicon_mese_block"}}
 })
 
 minetest.register_craft({
 	output = "itest:silicon_mese_block",
-	recipe = {{"itest:silicon_mese_crystal","itest:silicon_mese_crystal","itest:silicon_mese_crystal"},
-{"itest:silicon_mese_crystal","itest:silicon_mese_crystal","itest:silicon_mese_crystal"},
-{"itest:silicon_mese_crystal","itest:silicon_mese_crystal","itest:silicon_mese_crystal"}}
+	recipe = 	{{"itest:silicon_mesecon","itest:silicon_mesecon","itest:silicon_mesecon"},
+	{"itest:silicon_mesecon","itest:silicon_mesecon","itest:silicon_mesecon"},
+	{"itest:silicon_mesecon","itest:silicon_mesecon","itest:silicon_mesecon"}}
 })
 
 minetest.register_craft({
@@ -297,9 +297,9 @@ minetest.register_craft({
 
 minetest.register_craft({
 	output = "itest:lapotron_crystal",
-	recipe = {{"itest:silicon_mese_crystal","itest:circuit","itest:silicon_mese_crystal"},
-		{"itest:silicon_mese_crystal","itest:energy_crystal","itest:silicon_mese_crystal"},
-		{"itest:silicon_mese_crystal","itest:circuit","itest:silicon_mese_crystal"}}
+	recipe = {{"itest:silicon_mesecon","itest:circuit","itest:silicon_mesecon"},
+		{"itest:silicon_mesecon","itest:energy_crystal","itest:silicon_mesecon"},
+		{"itest:silicon_mesecon","itest:circuit","itest:silicon_mesecon"}}
 })
 
 minetest.register_craft({
@@ -394,7 +394,7 @@ register_craft2({
 register_craft2({
 	output = "itest:advanced_circuit",
 	recipe = {{"mesecons:wire_00000000_off","itest:gold_dust","mesecons:wire_00000000_off"},
-		{"itest:silicon_mese_crystal","itest:circuit","itest:silicon_mese_crystal"},
+		{"itest:silicon_mesecon","itest:circuit","itest:silicon_mesecon"},
 		{"mesecons:wire_00000000_off","itest:gold_dust","mesecons:wire_00000000_off"}}
 })
 
@@ -488,14 +488,14 @@ minetest.register_craft({
 })
 
 minetest.register_craft({
-	output = "itest:mining_drill",
+	output = "itest:mining_drill_discharged",
 	recipe = {{"","itest:refined_iron_ingot",""},
 		{"itest:refined_iron_ingot","itest:circuit","itest:refined_iron_ingot"},
 		{"itest:refined_iron_ingot","itest:re_battery","itest:refined_iron_ingot"}}
 })
 
 minetest.register_craft({
-	output = "itest:diamond_drill",
+	output = "itest:diamond_drill_discharged",
 	recipe = {{"","default:diamond",""},
 		{"default:diamond","itest:mining_drill","default:diamond"}}
 })
@@ -592,6 +592,7 @@ extractor.register_extractor_recipe("itest:sticky_resin","itest:rubber 3")
 extractor.register_extractor_recipe("itest:rubber_tree","itest:rubber")
 extractor.register_extractor_recipe("itest:rubber_sapling","itest:rubber")
 extractor.register_extractor_recipe("default:mese_crystal","mesecons:wire_00000000_off 32")
+extractor.register_extractor_recipe("default:sand","mesecons_resources:silicon")
 
 compressor.register_compressor_recipe("itest:mixed_metal_ingot","itest:advanced_alloy")
 compressor.register_compressor_recipe("itest:combined_carbon_fibers","itest:carbon_plate")

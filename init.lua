@@ -1,5 +1,12 @@
 modpath=minetest.get_modpath("itest")
 
+itest = {}
+itest.registered_ores = {}
+
+function itest.register_ore(name,value)
+	itest.registered_ores[name]=value
+end
+
 function hacky_swap_node(pos,name)
 	local node = minetest.env:get_node(pos)
 	local meta = minetest.env:get_meta(pos)

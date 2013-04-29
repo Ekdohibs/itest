@@ -1,6 +1,3 @@
-miner = {}
-miner.registered_ores = {}
-
 minetest.register_node("itest:mining_pipe",{description="Mining pipe",
 	groups={cracky=2},
 	drawtype = "nodebox",
@@ -48,7 +45,7 @@ minetest.register_node("itest:miner", {
 			end
 		end
 		if listname == "drill" then
-			if stack:get_name() == "itest:mining_drill" or stack:get_name() == "itest:diamond_drill" then
+			if stack:get_name() == "itest:mining_drill" or stack:get_name() == "itest:diamond_drill" or stack:get_name() == "itest:mining_drill_discharged" or stack:get_name() == "itest:diamond_drill_discharged" then
 				return stack:get_count()
 			else
 				return 0
@@ -69,6 +66,20 @@ minetest.register_node("itest:miner", {
 		local stack = inv:get_stack(from_list, from_index)
 		if to_list == "pipe" then
 			return stack:get_count()
+		end
+		if to_list == "drill" then
+			if stack:get_name() == "itest:mining_drill" or stack:get_name() == "itest:diamond_drill" or stack:get_name() == "itest:mining_drill_discharged" or stack:get_name() == "itest:diamond_drill_discharged" then
+				return stack:get_count()
+			else
+				return 0
+			end
+		end
+		if to_list == "scanner" then
+			if stack:get_name() == "itest:od_scanner" or stack:get_name() == "itest:ov_scanner" then
+				return stack:get_count()
+			else
+				return 0
+			end
 		end
 		return consumers.inventory(pos, to_list, stack, 1)
 	end,
@@ -94,10 +105,6 @@ function miner.eject_item(pos,item)
 	end
 end
 
-function miner.register_ore(name)
-	miner.registered_ores[name]=true
-end
-
 function miner.dig_towards_ore(tpos,radius)
 	local lpos,lname
 	for x=-radius,radius do
@@ -105,7 +112,7 @@ function miner.dig_towards_ore(tpos,radius)
 		if z~=0 or x~=0 then
 			lpos = {x=tpos.x+x,y=tpos.y,z=tpos.z+z}
 			lname = minetest.env:get_node(lpos).name
-			if miner.registered_ores[lname] then return lpos end
+			if itest.registered_ores[lname] then return lpos end
 		end
 	end
 	end
@@ -146,10 +153,10 @@ minetest.register_abm({
 		if pipe:is_empty() then return end
 		local ntime
 		local e = 0
-		if drill:get_name() == "itest:mining_drill" then
+		if drill:get_name() == "itest:mining_drill" or drill:get_name() == "itest:mining_drill_discharged" then
 			ntime = 4
 			e = e + 450
-		elseif drill:get_name() == "itest:diamond_drill" then
+		elseif drill:get_name() == "itest:diamond_drill" or drill:get_name() == "itest:diamond_drill_discharged" then
 			ntime = 1
 			e = e + 900
 		end
@@ -206,19 +213,21 @@ minetest.register_abm({
 	end,
 })
 
-miner.register_ore("default:stone_with_coal")
-miner.register_ore("default:stone_with_iron")
-miner.register_ore("default:stone_with_mese")
-miner.register_ore("default:stone_with_gold")
-miner.register_ore("default:stone_with_diamond")
-miner.register_ore("default:mese")
-miner.register_ore("default:stone_with_copper")
-miner.register_ore("itest:stone_with_tin")
-miner.register_ore("itest:stone_with_uranium")
-miner.register_ore("moreores:mineral_tin")
-miner.register_ore("moreores:mineral_copper")
-miner.register_ore("moreores:mineral_gold")
-miner.register_ore("moreores:mineral_mithril")
-miner.register_ore("technic:mineral_uranium")
-miner.register_ore("technic:mineral_chromium")
-miner.register_ore("technic:mineral_zinc")
+itest.register_ore("default:stone_with_coal", 1)
+itest.register_ore("default:stone_with_iron", 4)
+itest.register_ore("default:stone_with_mese", 24)
+itest.register_ore("default:stone_with_gold", 3)
+itest.register_ore("default:stone_with_diamond", 5)
+itest.register_ore("default:mese", 216)
+itest.register_ore("default:stone_with_copper", 2)
+itest.register_ore("itest:stone_with_tin", 2)
+itest.register_ore("itest:stone_with_uranium", 4)
+
+itest.register_ore("moreores:mineral_tin", 2)
+itest.register_ore("moreores:mineral_copper", 2)
+itest.register_ore("moreores:mineral_gold", 3)
+itest.register_ore("moreores:mineral_mithril", 5)
+
+itest.register_ore("technic:mineral_uranium", 4)
+itest.register_ore("technic:mineral_chromium", 4)
+itest.register_ore("technic:mineral_zinc", 2)
