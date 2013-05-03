@@ -1,3 +1,5 @@
+miner = {}
+
 minetest.register_node("itest:mining_pipe",{description="Mining pipe",
 	groups={cracky=2},
 	drawtype = "nodebox",

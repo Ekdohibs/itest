@@ -84,6 +84,7 @@ function clone_node(name)
 	return node2
 end
 
+dofile(modpath.."/builtin.lua")
 dofile(modpath.."/mapgen.lua")
 dofile(modpath.."/iron_furnace.lua")
 dofile(modpath.."/energy_transport.lua")

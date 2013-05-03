@@ -184,7 +184,7 @@ minetest.register_tool("itest:od_scanner",{
 			y = y - 1 -- Look the next level down
 		end
 		minetest.chat_send_player(user:get_player_name(), "Ore density: "..math.floor(total_ores / nnodes * 1000), false)
-		return Itemtack(stack)
+		return ItemStack(stack)
 	end
 })
 
@@ -228,7 +228,7 @@ minetest.register_tool("itest:ov_scanner",{
 			y = y - 1 -- Look the next level down
 		end
 		minetest.chat_send_player(user:get_player_name(), "Ore value: "..math.floor(total_value / nnodes * 1000), false)
-		return Itemtack(stack)
+		return ItemStack(stack)
 	end
 })
 
