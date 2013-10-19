@@ -36,6 +36,9 @@ minetest.register_node("itest:macerator", {
 		meta:set_int("energy",0)
 		meta:set_int("max_energy",800)
 		meta:set_int("max_psize",32)
+		meta:set_int("tier",1)
+		meta:set_float("speed",1)
+		meta:set_float("consumption",1)
 		local inv = meta:get_inventory()
 		inv:set_size("src", 1)
 		inv:set_size("dst", 4)
@@ -45,13 +48,13 @@ minetest.register_node("itest:macerator", {
 				consumers.get_progressbar(0,1,
 					"itest_macerator_progress_bg.png",
 					"itest_macerator_progress_fg.png"))
-		consumers.on_construct(pos)
+		consumers.on_construct(pos, true)
 	end,
 	can_dig = function(pos,player)
 		local meta = minetest.env:get_meta(pos)
 		local inv = meta:get_inventory()
 		return inv:is_empty("src") and inv:is_empty("dst") and
-			consumers.can_dig(pos,player)
+			consumers.can_dig(pos,player, true)
 	end,
 	allow_metadata_inventory_put = function(pos, listname, index, stack, player)
 		if listname == "dst" then
@@ -59,7 +62,8 @@ minetest.register_node("itest:macerator", {
 		elseif listname == "src" then
 			return stack:get_count()
 		end
-		return consumers.inventory(pos, listname, stack, 1)
+		local meta = minetest.env:get_meta(pos)
+		return consumers.inventory(pos, listname, stack, meta:get_int("tier"))
 	end,
 	allow_metadata_inventory_move = function(pos, from_list, from_index, to_list, to_index, count, player)
 		local meta = minetest.env:get_meta(pos)
@@ -70,7 +74,8 @@ minetest.register_node("itest:macerator", {
 		elseif to_list == "src" then
 			return stack:get_count()
 		end
-		return consumers.inventory(pos, to_list, stack, 1)
+		local meta = minetest.env:get_meta(pos)
+		return consumers.inventory(pos, to_list, stack, meta:get_int("tier"))
 	end,
 })
 
@@ -100,19 +105,22 @@ minetest.register_node("itest:macerator_active", {
 		meta:set_int("energy",0)
 		meta:set_int("max_energy",800)
 		meta:set_int("max_psize",32)
+		meta:set_int("tier",1)
+		meta:set_float("speed",1)
+		meta:set_float("consumption",1)
 		local inv = meta:get_inventory()
 		inv:set_size("src", 1)
 		inv:set_size("dst", 4)
 		meta:set_string("formspec", consumers.get_formspec(pos)..
 				"list[current_name;src;2,1;1,1;]"..
 				"list[current_name;dst;5,1;2,2;]")
-		consumers.on_construct(pos)
+		consumers.on_construct(pos, true)
 	end,
 	can_dig = function(pos,player)
 		local meta = minetest.env:get_meta(pos)
 		local inv = meta:get_inventory()
 		return inv:is_empty("src") and inv:is_empty("dst") and
-			consumers.can_dig(pos,player)
+			consumers.can_dig(pos,player, true)
 	end,
 	allow_metadata_inventory_put = function(pos, listname, index, stack, player)
 		if listname == "dst" then
@@ -120,7 +128,8 @@ minetest.register_node("itest:macerator_active", {
 		elseif listname == "src" then
 			return stack:get_count()
 		end
-		return consumers.inventory(pos, listname, stack, 1)
+		local meta = minetest.env:get_meta(pos)
+		return consumers.inventory(pos, listname, stack, meta:get_int("tier"))
 	end,
 	allow_metadata_inventory_move = function(pos, from_list, from_index, to_list, to_index, count, player)
 		local meta = minetest.env:get_meta(pos)
@@ -131,7 +140,8 @@ minetest.register_node("itest:macerator_active", {
 		elseif to_list == "src" then
 			return stack:get_count()
 		end
-		return consumers.inventory(pos, to_list, stack, 1)
+		local meta = minetest.env:get_meta(pos)
+		return consumers.inventory(pos, to_list, stack, meta:get_int("tier"))
 	end,
 })
 
@@ -140,10 +150,12 @@ minetest.register_abm({
 	interval = 1.0,
 	chance = 1,
 	action = function(pos, node, active_object_count, active_object_count_wider)
+		consumers.update_upgrades(pos, 800, 1)
 		local meta = minetest.env:get_meta(pos)
 		local inv = meta:get_inventory()
 		
-		local speed = 1
+		local speed = meta:get_float("speed")
+		local cmp = meta:get_float("consumption")
 		
 		if meta:get_string("stime") == "" then
 			meta:set_float("stime", 0.0)
@@ -167,10 +179,10 @@ minetest.register_abm({
 			end
 		
 			local energy = meta:get_int("energy")
-			if energy >= 2 then
+			if energy >= math.floor(2*cmp) then
 				if ground and ground.item then
 					state = true
-					meta:set_int("energy",energy-2)
+					meta:set_int("energy",energy-math.floor(2*cmp))
 					meta:set_float("stime", meta:get_float("stime") + 1)
 					if meta:get_float("stime")>=20*speed*ground.time then
 						meta:set_float("stime",0)
@@ -208,7 +220,7 @@ minetest.register_abm({
 		else
 			hacky_swap_node(pos,"itest:macerator")
 		end
-		meta:set_string("formspec", consumers.get_formspec(pos)..
+		meta:set_string("formspec", consumers.get_formspec(pos, true)..
 				"list[current_name;src;2,1;1,1;]"..
 				"list[current_name;dst;5,1;2,2;]"..
 				consumers.get_progressbar(progress,maxprogress,

@@ -38,7 +38,7 @@ end
 minetest.register_node("itest:rubber_sapling", {
 	description = "Rubber Tree Sapling",
 	drawtype = "plantlike",
-	tiles = {"technic_rubber_sapling.png"},
+	tiles = {"itest_rubber_sapling.png"},
 	inventory_image = "technic_rubber_sapling.png",
 	wield_image = "technic_rubber_sapling.png",
 	paramtype = "light",
@@ -99,7 +99,7 @@ minetest.register_abm({
 minetest.register_node("itest:rubber_leaves", {
 	drawtype = "allfaces_optional",
 	visual_scale = 1.3,
-	tiles = {"technic_rubber_leaves.png"},
+	tiles = {"itest_rubber_leaves.png"},
 	paramtype = "light",
 	groups = {snappy=3, leafdecay=3, flammable=2, not_in_creative_inventory=1},
 	drop = {

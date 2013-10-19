@@ -37,15 +37,45 @@ function consumers.get_progressbar(v,mv,bg,fg)
 	return bar
 end
 
-function consumers.on_construct(pos)
+function consumers.on_construct(pos, upgrades)
 	local meta = minetest.env:get_meta(pos)
 	local inv = meta:get_inventory()
 	inv:set_size("discharge", 1)
+	if upgrades ~= nil then
+		inv:set_size("upgrades", 4)
+	end
 end
 
-function consumers.can_dig(pos,player)
+local maxcurrents = {32, 128, 512, 1000000000}
+
+function consumers.update_upgrades(pos, mchr, tier)
 	local meta = minetest.env:get_meta(pos)
 	local inv = meta:get_inventory()
+	local speed = 1
+	local cmp = 1
+	for i = 1,3 do
+		local stack = inv:get_stack("upgrades", i)
+		local n = stack:get_count()
+		local name = stack:get_name()
+		if name == "itest:overclocker_upgrade" then
+			speed = speed * math.pow(0.7, n)
+			cmp = cmp * math.pow(1.6, n)
+		elseif name == "itest:transformer_upgrade" then
+			tier = tier + n
+		elseif name == "itest:storage_upgrade" then
+			mchr = mchr + n*10000
+		end
+	end
+	meta:set_float("speed", speed)
+	meta:set_float("consumption", cmp)
+	meta:set_int("max_psize", maxcurrents[tier])
+	meta:set_int("max_energy", mchr)
+end
+
+function consumers.can_dig(pos,player, upgrades)
+	local meta = minetest.env:get_meta(pos)
+	local inv = meta:get_inventory()
+	if upgrades~=nil and not inv:is_empty("upgrades") then return false end
 	return inv:is_empty("discharge")
 end
 
@@ -56,13 +86,22 @@ function consumers.inventory(pos, listname, stack, tier)
 			return stack:get_count()
 		end
 		return 0
+	elseif listname=="upgrades" then
+		local name = stack:get_name()
+		if name == "itest:overclocker_upgrade" or name == "itest:storage_upgrade" or name == "itest:transformer_upgrade" then
+			return stack:get_count()
+		end
+		return 0
 	end
 end
 
-function consumers.get_formspec(pos)
+function consumers.get_formspec(pos, upgrades)
 	formspec = "size[8,9]"..
 	"list[current_name;discharge;2,3;1,1;]"..
 	"list[current_player;main;0,5;8,4;]"
+	if upgrades ~= nil then
+		formspec = formspec.."list[current_name;upgrades;7,0;1,3;]"
+	end
 	local meta = minetest.env:get_meta(pos)
 	local node = minetest.env:get_node(pos)
 	local percent = meta:get_int("energy")/get_node_field(node.name,meta,"max_energy")*100
